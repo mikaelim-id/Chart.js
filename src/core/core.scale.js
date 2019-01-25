@@ -106,7 +106,7 @@ module.exports = Element.extend({
 	 * @private
 	 * @returns {Padding} the necessary padding
 	 */
-	getPadding: function() {
+	getPadding: function () {
 		var me = this;
 		return {
 			left: me.paddingLeft || 0,
@@ -120,7 +120,7 @@ module.exports = Element.extend({
 	 * Returns the scale tick objects ({label, major})
 	 * @since 2.7
 	 */
-	getTicks: function() {
+	getTicks: function () {
 		return this._ticks;
 	},
 
@@ -128,7 +128,7 @@ module.exports = Element.extend({
 	// Any function defined here is inherited by all scale types.
 	// Any function can be extended by the scale type
 
-	mergeTicksOptions: function() {
+	mergeTicksOptions: function () {
 		var ticks = this.options.ticks;
 		if (ticks.minor === false) {
 			ticks.minor = {
@@ -151,11 +151,11 @@ module.exports = Element.extend({
 			}
 		}
 	},
-	beforeUpdate: function() {
+	beforeUpdate: function () {
 		helpers.callback(this.options.beforeUpdate, [this]);
 	},
 
-	update: function(maxWidth, maxHeight, margins) {
+	update: function (maxWidth, maxHeight, margins) {
 		var me = this;
 		var i, ilen, labels, label, ticks, tick;
 
@@ -242,16 +242,16 @@ module.exports = Element.extend({
 		return me.minSize;
 
 	},
-	afterUpdate: function() {
+	afterUpdate: function () {
 		helpers.callback(this.options.afterUpdate, [this]);
 	},
 
 	//
 
-	beforeSetDimensions: function() {
+	beforeSetDimensions: function () {
 		helpers.callback(this.options.beforeSetDimensions, [this]);
 	},
-	setDimensions: function() {
+	setDimensions: function () {
 		var me = this;
 		// Set the unconstrained dimension before label rotation
 		if (me.isHorizontal()) {
@@ -273,25 +273,25 @@ module.exports = Element.extend({
 		me.paddingRight = 0;
 		me.paddingBottom = 0;
 	},
-	afterSetDimensions: function() {
+	afterSetDimensions: function () {
 		helpers.callback(this.options.afterSetDimensions, [this]);
 	},
 
 	// Data limits
-	beforeDataLimits: function() {
+	beforeDataLimits: function () {
 		helpers.callback(this.options.beforeDataLimits, [this]);
 	},
 	determineDataLimits: helpers.noop,
-	afterDataLimits: function() {
+	afterDataLimits: function () {
 		helpers.callback(this.options.afterDataLimits, [this]);
 	},
 
 	//
-	beforeBuildTicks: function() {
+	beforeBuildTicks: function () {
 		helpers.callback(this.options.beforeBuildTicks, [this]);
 	},
 	buildTicks: helpers.noop,
-	afterBuildTicks: function(ticks) {
+	afterBuildTicks: function (ticks) {
 		var me = this;
 		// ticks is empty for old axis implementations here
 		if (helpers.isArray(ticks) && ticks.length) {
@@ -302,25 +302,25 @@ module.exports = Element.extend({
 		return ticks;
 	},
 
-	beforeTickToLabelConversion: function() {
+	beforeTickToLabelConversion: function () {
 		helpers.callback(this.options.beforeTickToLabelConversion, [this]);
 	},
-	convertTicksToLabels: function() {
+	convertTicksToLabels: function () {
 		var me = this;
 		// Convert ticks to strings
 		var tickOpts = me.options.ticks;
 		me.ticks = me.ticks.map(tickOpts.userCallback || tickOpts.callback, this);
 	},
-	afterTickToLabelConversion: function() {
+	afterTickToLabelConversion: function () {
 		helpers.callback(this.options.afterTickToLabelConversion, [this]);
 	},
 
 	//
 
-	beforeCalculateTickRotation: function() {
+	beforeCalculateTickRotation: function () {
 		helpers.callback(this.options.beforeCalculateTickRotation, [this]);
 	},
-	calculateTickRotation: function() {
+	calculateTickRotation: function () {
 		var me = this;
 		var context = me.ctx;
 		var tickOpts = me.options.ticks;
@@ -360,16 +360,16 @@ module.exports = Element.extend({
 
 		me.labelRotation = labelRotation;
 	},
-	afterCalculateTickRotation: function() {
+	afterCalculateTickRotation: function () {
 		helpers.callback(this.options.afterCalculateTickRotation, [this]);
 	},
 
 	//
 
-	beforeFit: function() {
+	beforeFit: function () {
 		helpers.callback(this.options.beforeFit, [this]);
 	},
-	fit: function() {
+	fit: function () {
 		var me = this;
 		// Reset
 		var minSize = me.minSize = {
@@ -460,7 +460,8 @@ module.exports = Element.extend({
 					paddingLeft = firstLabelWidth / 2;
 					paddingRight = lastLabelWidth / 2;
 				}
-				me.paddingLeft = Math.max(paddingLeft - offsetLeft, 0) + 3; // add 3 px to move away from canvas edges
+
+				me.paddingLeft = this.options.ticks.maxRotation === 0 ? 0 : Math.max(paddingLeft - offsetLeft, 0) + 3; // add 3 px to move away from canvas edges
 				me.paddingRight = Math.max(paddingRight - offsetRight, 0) + 3;
 			} else {
 				// A vertical axis is more constrained by the width. Labels are the
@@ -490,7 +491,7 @@ module.exports = Element.extend({
 	 * Handle margins and padding interactions
 	 * @private
 	 */
-	handleMargins: function() {
+	handleMargins: function () {
 		var me = this;
 		if (me.margins) {
 			me.paddingLeft = Math.max(me.paddingLeft - me.margins.left, 0);
@@ -500,20 +501,20 @@ module.exports = Element.extend({
 		}
 	},
 
-	afterFit: function() {
+	afterFit: function () {
 		helpers.callback(this.options.afterFit, [this]);
 	},
 
 	// Shared Methods
-	isHorizontal: function() {
+	isHorizontal: function () {
 		return this.options.position === 'top' || this.options.position === 'bottom';
 	},
-	isFullWidth: function() {
+	isFullWidth: function () {
 		return (this.options.fullWidth);
 	},
 
 	// Get the correct value. NaN bad inputs, If the value type is object get the x or y based on whether we are horizontal or not
-	getRightValue: function(rawValue) {
+	getRightValue: function (rawValue) {
 		// Null and undefined values first
 		if (helpers.isNullOrUndef(rawValue)) {
 			return NaN;
@@ -564,7 +565,7 @@ module.exports = Element.extend({
 	 * Returns the location of the tick at the given index
 	 * The coordinate (0, 0) is at the upper-left corner of the canvas
 	 */
-	getPixelForTick: function(index) {
+	getPixelForTick: function (index) {
 		var me = this;
 		var offset = me.options.offset;
 		if (me.isHorizontal()) {
@@ -588,7 +589,7 @@ module.exports = Element.extend({
 	 * Utility for getting the pixel location of a percentage of scale
 	 * The coordinate (0, 0) is at the upper-left corner of the canvas
 	 */
-	getPixelForDecimal: function(decimal) {
+	getPixelForDecimal: function (decimal) {
 		var me = this;
 		if (me.isHorizontal()) {
 			var innerWidth = me.width - (me.paddingLeft + me.paddingRight);
@@ -605,26 +606,26 @@ module.exports = Element.extend({
 	 * Returns the pixel for the minimum chart value
 	 * The coordinate (0, 0) is at the upper-left corner of the canvas
 	 */
-	getBasePixel: function() {
+	getBasePixel: function () {
 		return this.getPixelForValue(this.getBaseValue());
 	},
 
-	getBaseValue: function() {
+	getBaseValue: function () {
 		var me = this;
 		var min = me.min;
 		var max = me.max;
 
 		return me.beginAtZero ? 0 :
 			min < 0 && max < 0 ? max :
-			min > 0 && max > 0 ? min :
-			0;
+				min > 0 && max > 0 ? min :
+					0;
 	},
 
 	/**
 	 * Returns a subset of ticks to be plotted to avoid overlapping labels.
 	 * @private
 	 */
-	_autoSkip: function(ticks) {
+	_autoSkip: function (ticks) {
 		var skipRatio;
 		var me = this;
 		var isHorizontal = me.isHorizontal();
@@ -692,7 +693,7 @@ module.exports = Element.extend({
 	/**
 	 * @private
 	 */
-	_isVisible: function() {
+	_isVisible: function () {
 		var me = this;
 		var chart = me.chart;
 		var display = me.options.display;
@@ -717,7 +718,7 @@ module.exports = Element.extend({
 
 	// Actually draw the scale on the canvas
 	// @param {rectangle} chartArea : the area of the chart to draw full grid lines on
-	draw: function(chartArea) {
+	draw: function (chartArea) {
 		var me = this;
 		var options = me.options;
 
@@ -782,13 +783,13 @@ module.exports = Element.extend({
 
 		var epsilon = 0.0000001; // 0.0000001 is margin in pixels for Accumulated error.
 
-		helpers.each(ticks, function(tick, index) {
+		helpers.each(ticks, function (tick, index) {
 			// autoskipper skipped this tick (#4635)
 			if (helpers.isNullOrUndef(tick.label)) {
 				return;
 			}
 
-			var label = tick.label;
+			var label = tick.label.length > 12 ? tick.label.substring(0, 10).trim() + '...' : tick.label;
 			var lineWidth, lineColor, borderDash, borderDashOffset;
 			if (index === me.zeroLineIndex && options.offset === gridLines.offsetGridLines) {
 				// Draw the first index specially
@@ -883,7 +884,7 @@ module.exports = Element.extend({
 		});
 
 		// Draw all of the tick labels, tick marks, and grid lines at the correct places
-		helpers.each(itemsToDraw, function(itemToDraw) {
+		helpers.each(itemsToDraw, function (itemToDraw) {
 			var glWidth = itemToDraw.glWidth;
 			var glColor = itemToDraw.glColor;
 
