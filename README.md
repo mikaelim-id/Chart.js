@@ -4,6 +4,8 @@
 
 *Simple HTML5 Charts using the canvas element* [chartjs.org](https://www.chartjs.org)
 
+Add - Shorten Ticks Label if Max Rotation is Zero
+
 ## Installation
 
 You can download the latest version of Chart.js from the [GitHub releases](https://github.com/chartjs/Chart.js/releases/latest) or use a [Chart.js CDN](https://cdnjs.com/libraries/Chart.js).
