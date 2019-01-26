@@ -17,10 +17,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/chartjs/Chart.js.git"
+    "url": "https://github.com/mikaelim-id/Chart.js.git"
   },
   "bugs": {
-    "url": "https://github.com/chartjs/Chart.js/issues"
+    "url": "https://github.com/mikaelim/Chart.js/issues"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
