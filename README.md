@@ -6,6 +6,12 @@
 
 Add - Shorten Ticks Label if Max Rotation is Zero
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mikaelim-id/Chart.js/master/image/before.png" width="350" title="hover text">
+	To
+  <img src="https://raw.githubusercontent.com/mikaelim-id/Chart.js/master/image/after.png" width="350">
+</p>
+
 ## Installation
 
 You can download the latest version of Chart.js from the [GitHub releases](https://github.com/chartjs/Chart.js/releases/latest) or use a [Chart.js CDN](https://cdnjs.com/libraries/Chart.js).
